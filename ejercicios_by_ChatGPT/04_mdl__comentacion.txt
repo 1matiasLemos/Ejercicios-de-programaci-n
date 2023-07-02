@@ -1,0 +1,140 @@
+import random
+
+def generar_lista_aleatoria():
+    # Genera una lista aleatoria de números enteros del rango [0, 100]
+    return [random.randint(0, 100) for _ in range(13)]
+
+def imprimir_lista_ordenada(lista):
+    # Ordena la lista y la imprime en orden ascendente
+    lista_ordenada = sorted(lista)
+    return lista_ordenada
+
+def ingresar_numero():
+    while True:
+        try:
+            # Solicita al usuario ingresar un número entero
+            numero_a_agregar = int(input('Escriba el número -> '))
+            return numero_a_agregar
+        except ValueError:
+            # Manejo de excepción si se ingresa un valor no válido
+            print('Por favor ingrese un número entero válido.')
+
+def agregar_numero(lista):
+    # Agrega un número a la lista si no está duplicado
+    numero = ingresar_numero()
+    if numero in lista:
+        print('Este número ya existe en la lista. Intente de nuevo.')
+    else:
+        lista.append(numero)
+        print('Número agregado a la lista.')
+
+def eliminar_numero(lista):
+    # Elimina un número de la lista si está presente
+    a_eliminar = ingresar_numero()
+    if a_eliminar in lista:
+        lista.remove(a_eliminar)
+        print('Se eliminó el número de la lista.')
+    else:
+        print('Ese número no existe en la lista.')
+
+def realizar_operaciones_matematicas(lista):
+    suma = lambda num1, num2: num1 + num2
+    resta = lambda num1, num2: num1 - num2
+    multiplicacion = lambda num1, num2: num1 * num2
+    division = lambda num1, num2: num1 / num2
+
+    def obtener_numeros_de_lista():
+        while True:
+            # Solicita al usuario ingresar dos números presentes en la lista
+            num1 = ingresar_numero()
+            num2 = ingresar_numero()
+            if num1 in lista and num2 in lista:
+                return num1, num2
+            else:
+                print('Ambos números deben estar en la lista. Intente de nuevo.')
+
+    while True:
+        # Muestra el menú de operaciones matemáticas
+        print('\nElige una operación:')
+        print('1) Sumar')
+        print('2) Restar')
+        print('3) Multiplicar')
+        print('4) Dividir')
+        print('0) Salir')
+
+        eleccion = int(input())
+
+        if eleccion == 1:
+            # Realiza la suma de dos números de la lista
+            num1, num2 = obtener_numeros_de_lista()
+            resultado = suma(num1, num2)
+            print(f'El resultado de la suma es: {resultado}')
+        elif eleccion == 2:
+            # Realiza la resta de dos números de la lista
+            num1, num2 = obtener_numeros_de_lista()
+            resultado = resta(num1, num2)
+            print(f'El resultado de la resta es: {resultado}')
+        elif eleccion == 3:
+            # Realiza la multiplicación de dos números de la lista
+            num1, num2 = obtener_numeros_de_lista()
+            resultado = multiplicacion(num1, num2)
+            print(f'El resultado de la multiplicación es: {resultado}')
+        elif eleccion == 4:
+            # Realiza la división de dos números de la lista
+            num1, num2 = obtener_numeros_de_lista()
+            if num2 == 0:
+                print('Error: No se puede dividir entre 0.')
+            else:
+                resultado = division(num1, num2)
+                print(f'El resultado de la división es: {resultado}')
+        elif eleccion == 0:
+            # Sale del bucle y termina la ejecución del programa
+            break
+        else:
+            # Manejo de excepción para opciones inválidas
+            print('Opción no válida. Intente de nuevo.')
+
+# Función principal que ejecuta el programa
+def menu():
+    print('**** Bienvenido a Manipulación de Listas ****\n')
+    lista_de_numeros = generar_lista_aleatoria()
+    print('A continuación, verá una lista con números aleatorios:', lista_de_numeros)
+    
+    while True:
+        # Muestra el menú de opciones
+        print('\nElige qué quieres hacer con esta lista:')
+        print('1) Agregar un nuevo número a la lista')
+        print('2) Eliminar un número de la lista')
+        print('3) Ordenar la lista en orden ascendente')
+        print('4) Generar una nueva lista')
+        print('5) Realizar operaciones matemáticas con los números de la lista')
+        print('0) Salir del programa')
+
+        eleccion_de_operaciones = int(input('Escoja su opción: '))
+
+        if eleccion_de_operaciones == 1:
+            # Agrega un número a la lista
+            agregar_numero(lista_de_numeros)
+        elif eleccion_de_operaciones == 2:
+            # Elimina un número de la lista
+            eliminar_numero(lista_de_numeros)
+        elif eleccion_de_operaciones == 3:
+            # Imprime la lista ordenada en orden ascendente
+            lista_ordenada = imprimir_lista_ordenada(lista_de_numeros)
+            print(f'Lista ordenada: {lista_ordenada}')
+        elif eleccion_de_operaciones == 4:
+            # Genera una nueva lista de números aleatorios
+            lista_de_numeros = generar_lista_aleatoria()
+            print('Se generó una nueva lista.')
+        elif eleccion_de_operaciones == 5:
+            # Realiza operaciones matemáticas con los números de la lista
+            realizar_operaciones_matematicas(lista_de_numeros)
+        elif eleccion_de_operaciones == 0:
+            # Sale del programa
+            break
+        else:
+            # Manejo de excepción para opciones inválidas
+            print('Opción no válida. Intente de nuevo.')
+
+# Ejecución del programa
+menu()

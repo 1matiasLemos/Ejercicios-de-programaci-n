@@ -1,0 +1,139 @@
+def convertir_celsius(valor, tipo):
+    """
+    Convierte una temperatura a grados Celsius.
+
+    Args:
+        valor (float): Valor de la temperatura a convertir.
+        tipo (str): Tipo de unidad de temperatura original.
+
+    Returns:
+        str: Resultado de la conversión.
+    """
+    if tipo == 'Fahrenheit':
+        temperatura = (valor - 32) / 1.8
+        if temperatura <= -273.15:
+            return f'\nLa temperatura alcanza el cero absoluto (-273.15°C)'
+        else:
+            return f'\n{valor} grados {tipo} es igual a {temperatura:.2f}°C'
+    elif tipo == 'Kelvin':
+        temperatura = valor - 273.15
+        if temperatura <= -273.15:
+            return f'\nLa temperatura alcanza el cero absoluto (-273.15°C)'
+        else:
+            return f'\n{valor} grados {tipo} es igual a {temperatura:.2f}°C'
+    else:
+        return f'\nSon {valor} grados Celsius'
+
+
+def convertir_fahrenheit(valor, tipo):
+    """
+    Convierte una temperatura a grados Fahrenheit.
+
+    Args:
+        valor (float): Valor de la temperatura a convertir.
+        tipo (str): Tipo de unidad de temperatura original.
+
+    Returns:
+        str: Resultado de la conversión.
+    """
+    if tipo == 'Celsius':
+        temperatura = (valor * 1.8) + 32
+        if temperatura <= -459.67:
+            return f'\nLa temperatura alcanza el cero absoluto (-459.67°F)'
+        else:
+            return f'\n{valor} grados {tipo} es igual a {temperatura:.2f}°F'
+    elif tipo == 'Kelvin':
+        temperatura = (valor - 273.15) * 1.8 + 32
+        if temperatura <= -459.67:
+            return f'\nLa temperatura alcanza el cero absoluto (-459.67°F)'
+        else:
+            return f'\n{valor} grados {tipo} es igual a {temperatura:.2f}°F'
+    else:
+        return f'\nSon {valor} grados Fahrenheit'
+
+
+def convertir_kelvin(valor, tipo):
+    """
+    Convierte una temperatura a grados Kelvin.
+
+    Args:
+        valor (float): Valor de la temperatura a convertir.
+        tipo (str): Tipo de unidad de temperatura original.
+
+    Returns:
+        str: Resultado de la conversión.
+    """
+    if tipo == 'Celsius':
+        temperatura = valor + 273.15
+        if temperatura <= 0:
+            return f'\nLa temperatura alcanza el cero absoluto (0K)'
+        else:
+            return f'\n{valor} grados {tipo} es igual a {temperatura:.2f}K'
+    elif tipo == 'Fahrenheit':
+        temperatura = (valor + 459.67) / 1.8
+        if temperatura <= 0:
+            return f'\nLa temperatura alcanza el cero absoluto (0K)'
+        else:
+            return f'\n{valor} grados {tipo} es igual a {temperatura:.2f}K'
+    else:
+        return f'\nSon {valor} grados Kelvin'
+
+
+def pedir_datos():
+    """
+    Solicita al usuario ingresar un valor numérico y seleccionar un tipo de unidad de temperatura.
+
+    Returns:
+        tuple: Valor ingresado y tipo de unidad seleccionado.
+    """
+    while True:
+        try:
+            valor = float(input('Ingrese un valor: '))
+            while True:
+                try:
+                    print('\n1. Grados Celsius')
+                    print('2. Grados Fahrenheit')
+                    print('3. Grados Kelvin.            0. Cancelar y Salir')
+                    tipo_de_unidad = int(input('¿A qué tipo de unidad corresponde el valor? '))
+                    if tipo_de_unidad == 0:
+                        return valor, tipo_de_unidad
+                    elif tipo_de_unidad not in range(1, 4):
+                        print('Error: opción no válida')
+                    else:
+                        return valor, tipo_de_unidad
+                except ValueError:
+                    print('Error: escriba un número para seleccionar')
+        except ValueError:
+            print('Error: escriba un número')
+
+
+def menu():
+    """
+    Muestra el menú principal y maneja la lógica del programa.
+    """
+    print('--- Bienvenido al conversor de unidades de temperatura ---\n')
+    while True:
+        unidades_de_grados = ['', 'Celsius', 'Fahrenheit', 'Kelvin']
+        valor, tipo_de_unidad = pedir_datos()
+        if tipo_de_unidad == 0:
+            print('Programa finalizado.')
+            break
+        elif tipo_de_unidad in range(1, 4):
+            tipo_de_unidad = unidades_de_grados[tipo_de_unidad]
+            print('\nAhora elija a qué tipo de unidad desea convertir')
+            print('1. Grados Celsius')
+            print('2. Grados Fahrenheit')
+            print('3. Grados Kelvin')
+            unidad = int(input('Seleccione una opción: '))
+            if unidad in range(1, 4):
+                if unidad == 1:
+                    print(convertir_celsius(valor, tipo_de_unidad))
+                elif unidad == 2:
+                    print(convertir_fahrenheit(valor, tipo_de_unidad))
+                elif unidad == 3:
+                    print(convertir_kelvin(valor, tipo_de_unidad))
+            else:
+                print('Error: opción no válida')
+        else:
+            print('Error: opción no válida')
+

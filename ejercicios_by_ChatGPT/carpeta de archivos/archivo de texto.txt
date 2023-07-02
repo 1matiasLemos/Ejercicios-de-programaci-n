@@ -1,0 +1,11 @@
+La función split() en Python se utiliza para dividir una cadena de texto en una lista de subcadenas más pequeñas,
+basándose en un separador  específico. La sintaxis básica de la función split() es la siguiente:
+
+Donde:
+
+cadena es la cadena de texto que se va a dividir.
+separador es el carácter o secuencia de caracteres utilizado para separar la cadena. Si no se proporciona,
+se utilizará el espacio en blanco como separador por defecto.
+maxsplit (opcional) es un número entero que indica el número máximo de divisiones a realizar. Si se omite,
+se dividirá la cadena en todas las ocurrencias del separador.
+La función split() devuelve una lista con las subcadenas resultantes después de la división.
