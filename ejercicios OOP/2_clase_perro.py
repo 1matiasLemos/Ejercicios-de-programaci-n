@@ -7,6 +7,7 @@ from random import choice
 class Perro():
     
     def __init__(self,nombre:str,raza:str,edad:int,comida_fav:str,juguete_fav:str) -> None:
+        
         self.raza = raza
         self.edad = edad
         self.name = nombre
@@ -37,19 +38,22 @@ class Perro():
                 print(f'\n{self.name} ya no tiene hambre') #mensaje de salida
 
             self.indicador_de_hambre = 0 #el indicador se reinicia
-            self.sed += 20 #aumenta la sed...
+            self.sed += 15 #aumenta la sed...
             self.sueño += 7 #aumenta el sueño...
             self.barrera_de_limite() #evita que algun atributo supere el limite que es 100%
 
 
     def beber(self):
         while True: #el bucle se ejecutará hasta que el nivel de sed sea <= 30
+            
             if self.sed > 30: #condicional que indica que siga ejecutandose el bucle
                 self.sed -= 30 #reduce el nivel de sed (simula beber agua)
                 print(f'\n{self.name} está bebiendo agua...') #mensaje de salida
                 self.sueño -= 3 #reduce levemente el nivel de sueño
+                
                 if self.sueño < 0: #en caso de que el nivel de sueño sea menor que 0
                     self.sueño = 0 #deja el nivel en 0 para evitar numeros negativos
+                    
             elif self.sed <= 30: #condicional que cierra el bucle
                 print(f'\n{self.name} no tiene sed') #mensaje de salida del bucle
                 break #cierra el bucle
@@ -91,12 +95,14 @@ class Perro():
         if self.indicadores() >= 80: #en caso de detectar un problema...
             #mensaje de salida que indica que no se hará la accion de jugar hasta que el problema se solucione
             print(f'\n{self.name} no quiere jugar')        
+            
         else:#en caso contrario...
             self.estado_de_animo += juguetes[juguete] #el juguete aumenta el estado de animo, dependiendo su valor
             print(f'\n{self.name} esta jugando con {juguete}...') #mensaje de salida que dice que juguete esta usando
             self.sueño += 8 #aumenta el sueño (porque al jugar te cansas)
             self.hambre += 7 #aumenta el hambre (la perdida de energia en calorias)
             self.sed += 10 #aumenta la sed (perdida de liquidos)
+            
             if self.estado_de_animo > 100: #evita que el estado de animo sobrepase el limite de 100%
                 self.estado_de_animo = 100
  
@@ -115,6 +121,7 @@ class Perro():
 
             print(f'\n{self.name} ya despertó de su siesta') #mensaje de salida al finalizar el bucle 
             self.sueño = 0 #colocamos 0 al nivel de sueño para evitar numeros negativos
+            
         else:
             print(f'\n{self.name} no tiene sueño aún') #mensaje de salida si el nivel de sueño no es mayor que 80%
     
@@ -129,11 +136,11 @@ class Perro():
     def barrera_de_limite(self):
         limite:int = 100 
         indicador = self.indicadores() #toma el valor mas alto
+        
         if indicador >= limite: #si hay un estadistica que supera los 100
-            for i in list(self.sed,self.hambre,self.sueño,self.estado_de_animo):
-                
-                if i >= limite:
-                    self.i = 100
+            for i in list(self.sed,self.hambre,self.sueño,self.estado_de_animo): #itera por cada atributo
+                if i >= limite: #compara
+                    self.i = 100 #pone el atributo en el limite establecido
 
 
 
