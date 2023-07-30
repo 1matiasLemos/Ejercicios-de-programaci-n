@@ -176,24 +176,29 @@ def menu(): #el menu mostrará la interfaz y se ejecutarán todas las funciones
     print('Cuida bien de tu nueva mascota :D')
 
     #si ignoras tres veces el indicador de hambre tu perro morirá, y terminará el programa
-    while perro.indicador_de_hambre > 3: #mientras no hayas ignorado el mensaje del indicador de hambre 3 veces, tu perro no morirá
+    while perro.indicador_de_hambre != 4: #mientras no hayas ignorado el mensaje del indicador de hambre 3 veces, tu perro no morirá
         mostrar_acciones(perro.name) #muestra el menu de acciones que puede hacer tu perro
         accion = escojer() 
+        
         if accion == 2: #escojes la opción de comer
             opciones[accion](choice(comidas)) #envia como arg un elemento aleatorio de de lista comidas
+            
         elif accion == 4: #escojes la opcion de jugar
             opciones[accion](choice(juguetes))#envia como arg un elemento aleatorio de de lista juguetes
+            
         elif accion == 5: #escojes la opción de terminar el programa
             break #cierra el bucle
+            
         else: #escojes la opción de beber agua o dormir
             opciones[accion]() #estas dos opciones no requieren de ningun arg, asi que solo las ejecutas
 
+        #esto se ejecuta luego de cada acción, para revisar si hay problemas
         indicador_de_niveles = perro.indicadores() #recibe el nivel máximo o percentaje máximo (hambre, sed y sueño)
         if indicador_de_niveles >= 80: #si el indicador de niveles es igual o mayor a 80
             perro.indicador_del_problema(indicador_de_niveles) #imprime cual es el problema mas grave tomando ese valor
             perro.estadisticas() #imprime las estadisticas o los pocentajes de cada atributo (hambre, sed, sueño y estado de animo)
     else:
-        print(f'\n{perro.name} Murio :(\nXXX-Game Over-XXX') #mensaje de salida, si tu perro muere :(
+    print(f'\n{perro.name} Murio de hambre :( \nXXX-Game Over-XXX') #mensaje de salida, si tu perro muere :(
         
     print('----Juego finalizado-----') #mensaje de finalizacion del programa
     
