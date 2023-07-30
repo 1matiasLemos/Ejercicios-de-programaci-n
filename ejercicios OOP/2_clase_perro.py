@@ -1,3 +1,7 @@
+'''Este codigo simula tener un perro de mascota, puedes controlar las acciones que quieres que haga tu mascota, tales como
+beber agua, comer, dormir y jugar. La interfaz es de comando, por lo que se usan numeros para controlar las acciones.
+'''
+
 from random import choice
 
 class Perro():
@@ -43,8 +47,8 @@ class Perro():
             if self.sed > 30: #condicional que indica que siga ejecutandose el bucle
                 self.sed -= 30 #reduce el nivel de sed (simula beber agua)
                 print(f'\n{self.name} está bebiendo agua...') #mensaje de salida
-                self.sueño -= 5 #reduce levemente el nivel de sueño
-                if self.sueño < 0: #en caso de que el nivel de sueño sea menro que 0
+                self.sueño -= 3 #reduce levemente el nivel de sueño
+                if self.sueño < 0: #en caso de que el nivel de sueño sea menor que 0
                     self.sueño = 0 #deja el nivel en 0 para evitar numeros negativos
             elif self.sed <= 30: #condicional que cierra el bucle
                 print(f'\n{self.name} no tiene sed') #mensaje de salida del bucle
@@ -133,62 +137,65 @@ class Perro():
 
 
 
-def crear_perro():
+def crear_perro(): #solicita los datos, aunque medio innecesarios, del perro 
     n = 'Nombre del perro: '
     r = 'Tipo de raza: '
     e = 'Edad: '
     cf = 'Comida favorita: '
     jf = 'Juguete favorito: '
     
-    while True:
-        try:
-            return Perro(input(n),input(r),int(input(e)),input(cf),input(jf))
+    while True: #hasta que no se hayan completado los datos no terminará
+        try: #se puede mejorar esta parte, ya que si da un error tendrias que ingresar todos los datos de nuevo. Pero lo dejo asi nomas
+            return Perro(input(n).capitalize(),input(r),int(input(e)),input(cf),input(jf))
         except ValueError:
             print('Error: ingrese los valores adecuados')
 
 def mostrar_acciones(nombre):
     print(f'\nEscoje una acción que quieres que haga {nombre}')
-    print('1. Beber agua\t2. Comer\t3. Dormir\t4. Jugar\t5. Terminar el juego')
+    print('1. Beber agua\t2. Comer\t3. Dormir\t4. Jugar\t5. Terminar el juego') #opciones o acciones
 
 def escojer():
-    while True:
+    while True: 
         try:
             opcion = int(input('Acción ->   '))
-            if opcion in [1,2,3,4,5]:
+            if opcion in [1,2,3,4,5]: #si la opción está bien elegida, lo retornará
                 return opcion
             else:
-                print('Escoja una acción de las mostradas\n')
+                print('Escoja una acción de las mostradas\n') 
         except ValueError:
             print('Opción no válida')
 
-def menu():
-    perro = crear_perro()  
+def menu(): #el menu mostrará la interfaz y se ejecutarán todas las funciones 
+    perro = crear_perro() 
 
-    opciones = {1:perro.beber,2:perro.comer,3:perro.dormir,4:perro.jugar}
-    juguetes:list = ['pelota','hueso','palo','juguete plastico','muñeco',perro.juguete_fav]
-    comidas:list = ['comida normal','comida sabrosa','bocadillo','croqueta',perro.comida_fav]
+    opciones:dict = {1:perro.beber,2:perro.comer,3:perro.dormir,4:perro.jugar} #acciones del perro, cada entero es una opcion
+    juguetes:list = ['pelota','hueso','palo','juguete plastico','muñeco',perro.juguete_fav] #lista con juguetes
+    comidas:list = ['comida normal','comida sabrosa','bocadillo','croqueta',perro.comida_fav] #lista con comidas
 
-    print(f'Bienvenido ahora eres el dueño de {perro.name}')
+    print(f'\nBienvenido ahora eres el dueño de {perro.name}') #mensaje de Bienvenida, y muestra el nombre que elegiste para tu mascota
     print('Cuida bien de tu nueva mascota :D')
 
-    while perro.indicador_de_hambre != 3:
-        mostrar_acciones(perro.name)
-        accion = escojer()
-        if accion == 2:
-            opciones[accion](choice(comidas))
-        elif accion == 4:
-            opciones[accion](choice(juguetes))
-        elif accion == 5:
-            break
-        else:
-            opciones[accion]()
+    #si ignoras tres veces el indicador de hambre tu perro morirá, y terminará el programa
+    while perro.indicador_de_hambre > 3: #mientras no hayas ignorado el mensaje del indicador de hambre 3 veces, tu perro no morirá
+        mostrar_acciones(perro.name) #muestra el menu de acciones que puede hacer tu perro
+        accion = escojer() 
+        if accion == 2: #escojes la opción de comer
+            opciones[accion](choice(comidas)) #envia como arg un elemento aleatorio de de lista comidas
+        elif accion == 4: #escojes la opcion de jugar
+            opciones[accion](choice(juguetes))#envia como arg un elemento aleatorio de de lista juguetes
+        elif accion == 5: #escojes la opción de terminar el programa
+            break #cierra el bucle
+        else: #escojes la opción de beber agua o dormir
+            opciones[accion]() #estas dos opciones no requieren de ningun arg, asi que solo las ejecutas
 
-        indicador_de_niveles = perro.indicadores()
-        if indicador_de_niveles >= 80:
-            perro.indicador_del_problema(indicador_de_niveles)
-            perro.estadisticas()
+        indicador_de_niveles = perro.indicadores() #recibe el nivel máximo o percentaje máximo (hambre, sed y sueño)
+        if indicador_de_niveles >= 80: #si el indicador de niveles es igual o mayor a 80
+            perro.indicador_del_problema(indicador_de_niveles) #imprime cual es el problema mas grave tomando ese valor
+            perro.estadisticas() #imprime las estadisticas o los pocentajes de cada atributo (hambre, sed, sueño y estado de animo)
     else:
-        print(f'\n{perro.name} Murio :(\nXXX-Game Over-XXX')
-
-menu()
+        print(f'\n{perro.name} Murio :(\nXXX-Game Over-XXX') #mensaje de salida, si tu perro muere :(
+        
+    print('----Juego finalizado-----') #mensaje de finalizacion del programa
+    
+menu() #incio del programa
 
