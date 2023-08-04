@@ -13,10 +13,10 @@ import re
 import json
 
 def importar_saldo(): 
-    return json.load(open('ejercicios OOP\saldo.json'))['saldo']
+    return json.load(open('ejercicios OOP/ruleta file/saldo.json'))['saldo']
 
 def exportar_saldo(saldo_exp):
-    with open('ejercicios OOP\saldo.json','w') as saldo:
+    with open('ejercicios OOP/ruleta file/saldo.json','w') as saldo:
         json.dump({'saldo':saldo_exp},saldo,indent=4)   
 
 def limpiar_consola_windows():
