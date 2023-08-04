@@ -1,15 +1,27 @@
-#### Roullete ###
+#### Roulette ###
 
 ### Este codigo simula a una Ruleta de Apuestas 
 # Tipo de apuesta posibles: Color, Docenas, Columna, Seisenas y Número/s individual/es
 # Limitaciones: No es posible hacer apuestas Combinadas; las Seisenas solo son 6 y no puedes elegir especificamente entre que números
 
+'''Usa un json para guardar la cantidad de saldo, en caso de perder todo tendrá que modificar el json y enviarle 
+una cantidad, asi poder jugar de nuevo'''
+
 import random
 import subprocess
 import re
+import json
+
+def importar_saldo(): 
+    return json.load(open('ejercicios OOP\saldo.json'))['saldo']
+
+def exportar_saldo(saldo_exp):
+    with open('ejercicios OOP\saldo.json','w') as saldo:
+        json.dump({'saldo':saldo_exp},saldo,indent=4)   
 
 def limpiar_consola_windows():
     subprocess.call('cls', shell=True)
+    
 
 class Roulette():
     def __init__(self,saldo) -> None:
@@ -201,11 +213,11 @@ class Roulette():
             print('\t2. Columnas de seis')
             print('\t3. Filas de doce')
             print('\t4. Número individual')            
-            print('\t5. Apostar por color\n')
+            print('\t5. Apostar por color\t\t\t 0. Salir')
 
             try:
                 apuesta_escojida:int = int(input('Tipo de apuesta -> '))
-                if apuesta_escojida in range(1,6):
+                if apuesta_escojida in range(0,6):
                     return apuesta_escojida
                 else:
                     raise ValueError
@@ -223,13 +235,19 @@ class Roulette():
             print(f'Saldo: ${self.saldo}') #imprime el saldo disponible
             
             tipo_de_apuesta = self.elegir_tipo_de_apuesta()
-            monto = self.escoger_monto()
 
-            self.apuesta(tipo_de_apuesta,monto) #ejecuta la apuesta
+            if tipo_de_apuesta == 0:
+                break
+            else:
+                monto = self.escoger_monto()
+
+                self.apuesta(tipo_de_apuesta,monto) #ejecuta la apuesta
 
             print(self.tablero) #imprime el tablero en cada vuelta porque se limpia la consola luego de ejecutar "apuesta"
 
         print('\n___El programa se cerró correctamente___')
 
-ruleta = Roulette(2000) #ingresa una cantidad de saldo para jugar
+saldo_en_fichas = importar_saldo()
+ruleta = Roulette(saldo_en_fichas) #ingresa una cantidad de saldo para jugar
 ruleta.menu_de_apuestas()
+exportar_saldo(ruleta.saldo)
