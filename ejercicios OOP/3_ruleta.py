@@ -107,7 +107,7 @@ class Roullette():
                     numero_s = [num for num in numero_s if num <= 36 and num >= 0] #verifica que no haya numeros que excedan el limite y los descarta
                     return numero_s 
         
-        def escojer_color() -> str: #retorna un str que contiene una letra para identificas el color
+        def escoger_color() -> str: #retorna un str que contiene una letra para identificas el color
             while True:
                 color = input('Color ->  ').casefold() # (r) o (n)
 
