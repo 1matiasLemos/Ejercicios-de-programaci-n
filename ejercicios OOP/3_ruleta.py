@@ -128,7 +128,7 @@ class Roullette():
         print(f'{dict_de_tipo_de_apuesta[tipo_de_apuesta]["mensaje"]}') 
 
         if tipo_de_apuesta == 5: # 5 es apostar al color
-            color = escojer_color()
+            color = escoger_color()
             numeros = sorted([n for n, c in self.numeros_color.items() if c == color ]) #ordena los numeros del color escogido
  
         elif tipo_de_apuesta == 4: #6 es para apostar a numeros individuales
@@ -166,7 +166,7 @@ class Roullette():
             return True
 
 
-    def escojer_monto(self) -> int: #retorna la cantidad elegida por el usuario sin sobrepasar su saldo
+    def escoger_monto(self) -> int: #retorna la cantidad elegida por el usuario sin sobrepasar su saldo
 
         if self.verificador_de_saldo(): #retorna bool
             print('\nEscoja la cantidad que desea apostar')
@@ -223,7 +223,7 @@ class Roullette():
             print(f'Saldo: ${self.saldo}') #imprime el saldo disponible
             
             tipo_de_apuesta = self.elegir_tipo_de_apuesta()
-            monto = self.escojer_monto()
+            monto = self.escoger_monto()
 
             self.apuesta(tipo_de_apuesta,monto) #ejecuta la apuesta
 
