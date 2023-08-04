@@ -11,7 +11,7 @@ import re
 def limpiar_consola_windows():
     subprocess.call('cls', shell=True)
 
-class Roullette():
+class Roulette():
     def __init__(self,saldo) -> None:
         self.saldo:float = saldo #Saldo en fichas para hacer apuestas
         self.numeros_color:dict = { #cada numero tiene su respectivo color (r: Rojo) (n: Negro) y (v:Verde)
@@ -231,5 +231,5 @@ class Roullette():
 
         print('\n___El programa se cerró correctamente___')
 
-ruleta = Roullette(2000) #ingresa una cantidad de saldo para jugar
+ruleta = Roulette(2000) #ingresa una cantidad de saldo para jugar
 ruleta.menu_de_apuestas()
