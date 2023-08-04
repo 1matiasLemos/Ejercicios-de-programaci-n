@@ -1,3 +1,8 @@
+#### Roullete ###
+
+### Este codigo simula a una Ruleta de Apuestas 
+# Tipo de apuesta posibles: Color, Docenas, Columna, Seisenas y Número/s individual/es
+# Limitaciones: No es posible hacer apuestas Combinadas; las Seisenas solo son 6 y no puedes elegir especificamente entre que números
 
 import random
 import subprocess
@@ -5,7 +10,6 @@ import re
 
 def limpiar_consola_windows():
     subprocess.call('cls', shell=True)
-
 
 class Roullette():
     def __init__(self,saldo) -> None:
@@ -87,7 +91,7 @@ class Roullette():
                 except ValueError:
                     print('Intente de nuevo')
 
-        def escoger_numero_o_numeros() -> list[int]:
+        def escoger_numero_o_numeros() -> list[int]: #retorna una lista con uno o mas numeros escogidos
 
             while True:
 
@@ -95,29 +99,33 @@ class Roullette():
 
                 #Se usa una expresion regular con un patron para solo detecte numeros
                 numero_s = [int(num) for num in re.findall(r'\d+',input('Numero/s: -> '))] #convierte a int elementos de la lista findall
+
                 if numero_s == []: #si no escribió ningun numero
                     print('No se puede realizar esta apuesta. Ingrese un número o varios')
+
                 else:
-                    numero_s = [num for num in numero_s if num <= 36 and num >= 0] #verifica que no sean numeros que excedan el limite
-                    return numero_s      
+                    numero_s = [num for num in numero_s if num <= 36 and num >= 0] #verifica que no haya numeros que excedan el limite y los descarta
+                    return numero_s 
         
-        def escojer_color() -> str:
+        def escojer_color() -> str: #retorna un str que contiene una letra para identificas el color
             while True:
-                color = input('Color ->  ').casefold()
-                if color not in self.numeros_color.values():
-                    print('No se puede hacer esa apuesta. Escoja (r) Rojo o (n) Negro')
+                color = input('Color ->  ').casefold() # (r) o (n)
+
+                if color not in self.numeros_color.values(): #si se escoje una letra que no representa ninguno de los dos colores
+                    print('No se puede hacer esa apuesta. Escoja (r) Rojo o (n) Negro') #mensaje de salida, luego se reinicia el bucle
                 else:
                     return color
         
 
-        dict_de_tipo_de_apuesta:dict = {1:{'mensaje':'Escoja una columna de 12 números','paga':monto_apostado * 3},
+        dict_de_tipo_de_apuesta:dict = {1:{'mensaje':'Escoja una columna de 12 números','paga':monto_apostado * 3}, 
                                     2:{'mensaje':'Escoja una columna de 6 números','paga':monto_apostado * 6},
                                     3:{'mensaje':'Escoja una de las tres filas de 12','paga':monto_apostado * 3},
                                     4:{'mensaje': 'Escoja uno o varios números', 'paga': monto_apostado * 36},
                                     5:{'mensaje': 'Escoja Rojo (r) o Negro (n)', 'paga': monto_apostado * 2}
                                     }
         
-        print(f'{dict_de_tipo_de_apuesta[tipo_de_apuesta]["mensaje"]}')
+        #el "mensaje" será diferente dependiendo de la vabl "tipo_de_apuesta", al igual que la "paga"
+        print(f'{dict_de_tipo_de_apuesta[tipo_de_apuesta]["mensaje"]}') 
 
         if tipo_de_apuesta == 5: # 5 es apostar al color
             color = escojer_color()
@@ -135,15 +143,16 @@ class Roullette():
                     self.saldo -= apuesta_total
                     break
 
-        else:
+        else: #apuesta de columnas o filas
             numeros = escoger_numeros_por_columnas(tipo_de_apuesta)
-
+ 
         limpiar_consola_windows() #limpia sólo la parte visible de la consola, no elimina el historial
 
-        if self.girar_ruleta(numeros):
-            print(f'Tus números apostados: {[num for num in numeros]}')
-            print(f'Ganaste ${dict_de_tipo_de_apuesta[tipo_de_apuesta]["paga"]}')
-            self.saldo += dict_de_tipo_de_apuesta[tipo_de_apuesta]["paga"]
+        if self.girar_ruleta(numeros): #si retorna True
+            print(f'Tus números apostados: {[num for num in numeros]}') #imprime los numeros escogidos
+            print(f'Ganaste ${dict_de_tipo_de_apuesta[tipo_de_apuesta]["paga"]}') #imprime la ganancia
+            self.saldo += dict_de_tipo_de_apuesta[tipo_de_apuesta]["paga"] #pasa la ganancia al saldo
+
         else:
             print(f'Tus números apostados: {[num for num in numeros]}')
             print('No hay ganancia')
@@ -164,7 +173,7 @@ class Roullette():
 
             while True:
                 try:
-                    monto = int(input(f'Saldo: ${self.saldo:.1f}\t\tApuesta: $'))
+                    monto = int(input(f'Saldo: ${self.saldo:.1f}\t\tFicha: $'))
                     if monto > 0: #la apuesta no puede ser menor que 0
 
                         if monto <= self.saldo:
@@ -222,10 +231,5 @@ class Roullette():
 
         print('\n___El programa se cerró correctamente___')
 
-ruleta = Roullette(2000)
-ruleta.menu_de_apuestas()        
-
-
-
-
-
+ruleta = Roullette(2000) #ingresa una cantidad de saldo para jugar
+ruleta.menu_de_apuestas()
